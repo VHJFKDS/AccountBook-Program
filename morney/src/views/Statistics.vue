@@ -1,10 +1,10 @@
 <template>
-  <div>Money</div>
+  <div>Statistics</div>
 </template>
 
 <script lang="ts">
 export default {
- name:'Money'
+ name:'Statistics'
 }
 </script>
 
