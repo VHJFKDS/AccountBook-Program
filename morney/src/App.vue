@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view/>  <!--路径传送 -->
-    <hr/>
+    
     
   </div>
 </template>
