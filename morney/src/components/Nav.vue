@@ -24,6 +24,7 @@ name:'Nav'
 </script>
 
 <style lang="scss" scoped>  //scoped表示下面的样式只应用在当前<template>里</template>
+@import "~@/assets/style/helper.scss";
 nav{
   display: flex;
   box-shadow: 0 0 3px rgba(0,0,0,0.25);
@@ -43,7 +44,7 @@ nav{
   }
 }  
 .item.selected{
-  color: red;
+  color:$color-highlight;
 }
 }
 
