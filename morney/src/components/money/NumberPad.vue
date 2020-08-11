@@ -1,30 +1,66 @@
 <template>
   <div class="numberPad">
-  <div class="output">100</div>
+  <div class="output">{{output}}</div>
   <div class="buttons">
-    <button>1</button>
-    <button>2</button>
-    <button>3</button>
-    <button>删除</button>
-    <button>4</button>
-    <button>5</button>
-    <button>6</button>
-    <button>清空</button>
-    <button>7</button>
-    <button>8</button>
-    <button>9</button>
-    <button class="ok">Ok</button>
-    <button class="zero">0</button>
-    <button>.</button>
+    <button @click="inputContent">1</button>
+    <button @click="inputContent">2</button>
+    <button @click="inputContent">3</button>
+    <button @click="remove">删除</button>
+    <button @click="inputContent">4</button>
+    <button @click="inputContent">5</button>
+    <button @click="inputContent">6</button>
+    <button @click="clear">清空</button>
+    <button @click="inputContent">7</button>
+    <button @click="inputContent">8</button>
+    <button @click="inputContent">9</button>
+    <button @click="ok" class="ok">Ok</button>
+    <button @click="inputContent" class="zero">0</button>
+    <button @click="inputContent">.</button>
 
   </div>
 </div>
 </template>
 
 <script lang="ts">
-export default {
-  name: 'NumberPad',
+ import Vue from "vue"
+import { Component, Prop } from "vue-property-decorator";
+
+@Component
+
+export default class NumberPad extends Vue{
+  output:string = '0';  //默认0
+  inputContent(event:MouseEvent){   //这是一个鼠标事件
+  const button = (event.target as HTMLButtonElement)  //target可能是空，强制指定类型event.target是按钮
+  const input = button.textContent!  //输入的内容(!表示这个不为空，相当于as string)
+  if(this.output.length === 16){return}   //数字输入长度不得大于16位
+  if(this.output === '0'){  //当本身output是0
+  // if(input === '0'){return} //再输入0，则无效
+  if('0123456789'.indexOf(input)>=0){  //如果你输入的字符在1-9范围里，这里的>0指length0，非字符
+      this.output = input   //在初始值为0的情况下，再输入数字则是替换0，否则就在后面加数
+    }else{
+      this.output+=input
+    }
+    return
+  }
+  if(this.output.indexOf('.')>=0 && input === '.'){return} 
+  //如果输出的内容里已有一个点，又再输入点则无效
+  this.output+=input
+  }
+  remove(){
+    if(this.output.length === 1){
+      this.output ='0'
+    }else{
+    this.output = this.output.slice(0,-1)
+    }
+  }
+  clear(){
+      this.output ='0'
+  }
+  ok(){
+
+  }
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -38,7 +74,7 @@ export default {
     font-family: Consolas,monospace;
     padding: 9px 16px;
     text-align: right;
-    
+    min-height: 72px;
   }
   .buttons{
    @extend %clearFix;
