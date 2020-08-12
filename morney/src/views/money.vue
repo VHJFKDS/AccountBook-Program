@@ -2,7 +2,7 @@
 <template>
     <Layout class-prefix="layout">
       {{record}}
-<NumberPad :value.sync="record.amout"/>
+<NumberPad :value.sync="record.amout" @submit="saveRecord"/>
 <Types :value.sync="record.type"/>
 <Notes @update:value="onUpdateNotes"/>
 <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
@@ -15,7 +15,7 @@ import NumberPad from "@/components/money/NumberPad.vue";
 import Types from "@/components/money/Types.vue"
 import Notes from "@/components/money/Notes.vue"
 import Tags from "@/components/money/Tags.vue"
-import { Component } from "vue-property-decorator";
+import { Component, Watch } from "vue-property-decorator";
 
 type Record = {   //类型声明 (记录类型)
   tags:string[]
@@ -30,6 +30,7 @@ type Record = {   //类型声明 (记录类型)
 
 export default class Money extends Vue{
  tags=['衣','食','住','行','菜谱'];
+ recordList:Record[] = []
 record:Record = {  //记录
   tags:[],notes:'',type:'-',amout:0
 }
@@ -40,6 +41,16 @@ record:Record = {  //记录
  onUpdateNotes(value:string){
   this.record.notes = value
  }
+saveRecord(){  //点了ok后的数据存进去
+const record2 = JSON.parse(JSON.stringify(this.record))
+  this.recordList.push(record2)
+  console.log(this.recordList)
+}
+@Watch('recordList')
+onRecordListChange(){
+  window.localStorage.setItem('recordList',JSON.stringify(this.recordList))
+}
+
 }
 </script>
 
