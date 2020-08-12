@@ -1,7 +1,6 @@
 
 <template>
     <Layout class-prefix="layout">
-      {{recordList}}
 <NumberPad :value.sync="record.amout" @submit="saveRecord"/>
 <Types :value.sync="record.type"/>
 <Notes @update:value="onUpdateNotes"/>
@@ -17,7 +16,9 @@ import Notes from "@/components/money/Notes.vue"
 import Tags from "@/components/money/Tags.vue"
 import { Component, Watch } from "vue-property-decorator";
 
-window.localStorage.setItem('version','0.0.1')  //设置版本
+const recordList:Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
+
+window.localStorage.setItem('version','0.0.2')  //设置版本
 
 type Record = {   //类型声明 (记录类型)
   tags:string[]
@@ -33,7 +34,7 @@ type Record = {   //类型声明 (记录类型)
 
 export default class Money extends Vue{
  tags=['衣','食','住','行','菜谱'];
- recordList:Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]')
+ recordList:Record[] = recordList
 record:Record = {  //记录
   tags:[],notes:'',type:'-',amout:0
 }
@@ -48,7 +49,6 @@ saveRecord(){  //点了ok后的数据存进去
 const record2:Record = JSON.parse(JSON.stringify(this.record))   
 record2.createdAt = new Date()
   this.recordList.push(record2)
-  console.log(this.recordList)
 }
 @Watch('recordList')
 onRecordListChange(){
