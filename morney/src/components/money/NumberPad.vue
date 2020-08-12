@@ -28,7 +28,9 @@ import { Component, Prop } from "vue-property-decorator";
 @Component
 
 export default class NumberPad extends Vue{
-  output:string = '0';  //默认0
+  @Prop() readonly value!:number;
+  output = this.value.toString()  //初始值在Money
+
   inputContent(event:MouseEvent){   //这是一个鼠标事件
   const button = (event.target as HTMLButtonElement)  //target可能是空，强制指定类型event.target是按钮
   const input = button.textContent!  //输入的内容(!表示这个不为空，相当于as string)
@@ -57,7 +59,8 @@ export default class NumberPad extends Vue{
       this.output ='0'
   }
   ok(){
-
+  this.$emit('update:value',this.output)
+   
   }
 }
 
