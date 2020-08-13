@@ -1,7 +1,7 @@
 
 <template>
-    <Layout class-prefix="layout">
-<NumberPad :value.sync="record.amout" @submit="saveRecord"/>
+<Layout class-prefix="layout">
+<NumberPad :value.sync="record.amount" @submit="saveRecord"/>
 <Types :value.sync="record.type"/>
 <Notes @update:value="onUpdateNotes"/>
 <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
@@ -15,18 +15,9 @@ import Types from "@/components/money/Types.vue"
 import Notes from "@/components/money/Notes.vue"
 import Tags from "@/components/money/Tags.vue"
 import { Component, Watch } from "vue-property-decorator";
+import model from '../model';
 
-const recordList:Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
-
-window.localStorage.setItem('version','0.0.2')  //设置版本
-
-type Record = {   //类型声明 (记录类型)
-  tags:string[]
-  notes:string
-  type:string
-  amout:number
-  createdAt?:Date
-}
+const recordList = model.fetch();
 
 @Component({
   components:{Tags,NumberPad,Types,Notes}
@@ -34,9 +25,9 @@ type Record = {   //类型声明 (记录类型)
 
 export default class Money extends Vue{
  tags=['衣','食','住','行','菜谱'];
- recordList:Record[] = recordList
-record:Record = {  //记录
-  tags:[],notes:'',type:'-',amout:0
+ recordList:RecordItem[] = recordList;
+ record:RecordItem = {  //记录
+  tags:[],notes:'',type:'-',amount:0
 }
 
  onUpdateTags(value:string[]){
@@ -46,13 +37,13 @@ record:Record = {  //记录
   this.record.notes = value
  }
 saveRecord(){  //点了ok后的数据存进去
-const record2:Record = JSON.parse(JSON.stringify(this.record))   
+const record2:RecordItem = model.clone(this.record)  
 record2.createdAt = new Date()
   this.recordList.push(record2)
 }
 @Watch('recordList')
 onRecordListChange(){
-  window.localStorage.setItem('recordList',JSON.stringify(this.recordList))
+  model.save(this.recordList)
 }
 
 }
