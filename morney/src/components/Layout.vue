@@ -22,7 +22,7 @@ export default({
   height: 100vh;
 }
 .content{
-  // background: #f5f5f5;
+  background: #f5f5f5;
   flex-grow: 1;  //这里占了一份，其他的空间其他自己分
   overflow: auto;
 }
