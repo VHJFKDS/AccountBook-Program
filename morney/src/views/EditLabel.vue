@@ -19,7 +19,7 @@ import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
 import tagListModel from '../models/tagListModel';
 import FormItem from '@/components/money/FormItem.vue';
-
+import Button from '../components/Button.vue';
 
 @Component({
   components:{FormItem}
@@ -48,9 +48,7 @@ export default class EditLabel extends Vue{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  .title{
-
-  }
+  
   .leftIcon{
     width: 24px;
     height: 24px;
