@@ -1,15 +1,15 @@
 <template>
   <Layout>
     <div class="navBar">
-      <Icon class="leftIcon" name="left"/>
+      <Icon class="leftIcon" name="left" @click="goBack"/>
       <span class="title">编辑标签</span>
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem field-name="标签名" placeholder="请输入标签名"/>
+      <FormItem :value="tag.name" @update:value="update" field-name="标签名" placeholder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
-      <Button>删除标签</Button>      
+      <Button @click="remove">删除标签</Button>      
     </div>
   </Layout>
 </template>
@@ -25,17 +25,33 @@ import Button from '../components/Button.vue';
   components:{FormItem}
 })
 export default class EditLabel extends Vue{
+  tag?:{id:string,name:string} = undefined   //默认是空
+
   created(){
-  const id = this.$route.params.id;
+  const id = this.$route.params.id;   //获取页面url里的id
   tagListModel.fetch();
-  const tags = tagListModel.data;
-  const tag = tags.filter(t => t.id === id)[0];
-  if(tag){
-    console.log(tag)
+  const tags = tagListModel.data;   //通过id在所有tags里找到tag
+  const tag = tags.filter(t => t.id === id)[0];   //找到id，再把id赋值到上面的tag里
+  if(tag){   
+    this.tag = tag
   }else{
     this.$router.replace('/404')
   }
   }
+update(name:string){
+  if(this.tag){
+  tagListModel.update(this.tag.id,name)
+  }
+}
+  remove(){
+    if(this.tag){
+      tagListModel.remove(this.tag.id)
+    }
+  }
+goBack(){
+  this.$router.back()
+}
+
 }
 
 </script>
