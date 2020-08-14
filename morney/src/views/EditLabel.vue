@@ -5,10 +5,22 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import Layout from '@/components/Layout.vue';
+import { Component } from 'vue-property-decorator';
+import tagListModel from '../models/tagListModel';
 
-export default {
-  name: 'app',
+@Component
+export default class EditLabel extends Vue{
+  const id = this.$route.params.id;
+  tagListModel.fetch()
+  const tags = tagListModel.data
+  const tag = tags.filter(t => t.id === id)[0];
+  if(tag){
+    console.log(tag)
+  }else{
+    this.$router.replace('/404')
+  }
 }
 </script>
 <style lang="scss" scoped>
