@@ -58,11 +58,12 @@ export default class EditLabel extends Vue{
     width: 24px;
     height: 24px;
   }
+}
   .form-wrapper{
     background: white;
     margin-top: 8px;
   }
-}
+
 .button-wrapper{
   text-align: center;
   padding: 16px;
