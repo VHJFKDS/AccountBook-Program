@@ -45,7 +45,7 @@ record2.createdAt = new Date()
 }
 @Watch('recordList')
 onRecordListChange(){
-  recordListModel.save(this.recordList)
+  recordListModel.save()
 }
 
 }
