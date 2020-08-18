@@ -15,27 +15,31 @@ import Types from "@/components/money/Types.vue"
 import FormItem from "@/components/money/FormItem.vue"
 import Tags from "@/components/money/Tags.vue"
 import { Component} from "vue-property-decorator";
-import store from '../store/index2';
 
 
 @Component({
-  components:{Tags,NumberPad,Types,FormItem}
-  
+  components:{Tags,NumberPad,Types,FormItem},
+  computed:{
+    recordList(){
+      return this.$store.state.recordList
+    }
+  }
   
 })
 
 export default class Money extends Vue{
- recordList = store.recordList;
  record:RecordItem = {  //记录
   tags:[],notes:'',type:'-',amount:0
 }
 
-
+created(){
+  this.$store.commit('fetchRecords')
+}
  onUpdateNotes(value:string){
   this.record.notes = value
  }
 saveRecord(){  //点了ok后的数据存进去
- store.createRecord(this.record)
+ this.$store.commit('createRecord',this.record)
 }
 
 

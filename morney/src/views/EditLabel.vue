@@ -19,33 +19,32 @@ import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
 import FormItem from '@/components/money/FormItem.vue';
 import Button from '../components/Button.vue';
-import store from '../store/index2';
 
 @Component({
-  components:{FormItem}
+  components:{FormItem,Button}
 })
 export default class EditLabel extends Vue{
   tag?:Tag = undefined
 
 
   created(){
-  this.tag = store.findTag(this.$route.params.id)  //直接去路由上找tag获取页面url里的id
+  // this.tag = store.findTag(this.$route.params.id)  //直接去路由上找tag获取页面url里的id
   if(!this.tag){   
     this.$router.replace('/404')
   }
   }
 update(name:string){
   if(this.tag){
-  store.updateTag(this.tag.id,name)
+  // store.updateTag(this.tag.id,name)
   }
 }
   remove(){
     if(this.tag){
-     if(store.removeTag(this.tag.id)){
-       this.$router.back()
-     }else{
-       window.alert('删除失败')
-     }
+    //  if(store.removeTag(this.tag.id)){
+    //    this.$router.back()
+    //  }else{
+    //    window.alert('删除失败')
+    //  }
     }
   }
 goBack(){
