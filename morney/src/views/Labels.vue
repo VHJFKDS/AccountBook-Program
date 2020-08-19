@@ -1,7 +1,7 @@
 <template>
     <Layout>
       <div class="tags">
-        <router-link  class="tag" v-for="tag in tags" :key="tag.id" :to="`/labels/edit/${tag.id}`"> 
+        <router-link  class="tag" v-for="tag in currentTag" :key="tag.id" :to="`/labels/edit/${tag.id}`"> 
           <span>{{tag.name}}</span>
           <Icon name="right"/>
         </router-link>
@@ -28,7 +28,7 @@ import TagHelper from '../lib/mixins/tagHelper';
 })
 export default class Labels extends mixins(TagHelper){
 
-  get tags(){
+  get currentTag(){
       return this.$store.state.tagList
   }
   beforeCreate(){
