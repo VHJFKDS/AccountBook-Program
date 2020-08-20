@@ -10,7 +10,7 @@ const localStorageKeyName = 'recordList'
 type RootState = {
   recordList:RecordItem[],
     tagList:Tag[],
-    currentTag?:undefined
+    currentTag?:Tag | undefined
 }
 
 const store = new Vuex.Store({
