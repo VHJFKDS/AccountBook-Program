@@ -1,8 +1,7 @@
 <template>
   <ul class="tabs" :class="{[classPrefix+'-tabs']:classPrefix}">
    <li v-for="item in dataSource" :key="item.value" class="tabs-item"
-   :class="liClass(item)" @click="select(item)"
-   >{{item.text}}</li>
+   :class="liClass(item)" @click="select(item)">{{item.text}}</li>
   </ul>
 </template>
 
@@ -11,9 +10,10 @@ import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 
 type DataSourceItem = {text:string,value:string}
+
 @Component
 export default class Tabs extends Vue{
- @Prop({required:true,type:Array}) dataSource!:DataSourceItem[]   //接受一个数据源
+  @Prop({required:true,type:Array}) dataSource!:DataSourceItem[]   //接受一个数据源
   @Prop() readonly value!:string;    //value表示你选中的是哪一项
   @Prop() classPrefix?:string  //增加一个类前缀
 
