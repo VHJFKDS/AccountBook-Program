@@ -28,12 +28,12 @@ import { Component, Prop } from "vue-property-decorator";
 @Component
 
 export default class NumberPad extends Vue{
-  @Prop() readonly value!:number;
+  @Prop(Number) readonly value!: number;
   output = this.value.toString()  //初始值在Money
 
-  inputContent(event:MouseEvent){   //这是一个鼠标事件
+  inputContent(event: MouseEvent){   //这是一个鼠标事件
   const button = (event.target as HTMLButtonElement)  //target可能是空，强制指定类型event.target是按钮
-  const input = button.textContent!  //输入的内容(!表示这个不为空，相当于as string)
+  const input = button.textContent!;  //输入的内容(!表示这个不为空，相当于as string)
   if(this.output.length === 16){return}   //数字输入长度不得大于16位
   if(this.output === '0'){  //当本身output是0
   // if(input === '0'){return} //再输入0，则无效
@@ -59,8 +59,9 @@ export default class NumberPad extends Vue{
       this.output ='0'
   }
   ok(){
-  this.$emit('update:value',this.output)
-   this.$emit('submit',this.output)
+    const number = parseFloat(this.output)
+  this.$emit('update:value',number)
+   this.$emit('submit',number)
    this.output = '0'
   }
 }

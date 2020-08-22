@@ -33,14 +33,14 @@ get recordList(){
       return this.$store.state.recordList
     }
 
- record:RecordItem = {  //记录
+ record: RecordItem = {  //记录
   tags:[],notes:'',type:'-',amount:0
 }
 
 created(){
   this.$store.commit('fetchRecords')
 }
- onUpdateNotes(value:string){
+ onUpdateNotes(value: string){
   this.record.notes = value
  }
 saveRecord(){  //点了ok后的数据存进去
