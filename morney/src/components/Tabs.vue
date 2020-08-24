@@ -9,21 +9,21 @@
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 
-type DataSourceItem = {text:string,value:string}
+type DataSourceItem = {text: string;value: string}
 
 @Component
 export default class Tabs extends Vue{
-  @Prop({required:true,type:Array}) dataSource!:DataSourceItem[]   //接受一个数据源
-  @Prop() readonly value!:string;    //value表示你选中的是哪一项
-  @Prop() classPrefix?:string  //增加一个类前缀
+  @Prop({required:true,type:Array}) dataSource!: DataSourceItem[]   //接受一个数据源
+  @Prop(String) readonly value!: string;    //value表示你选中的是哪一项
+  @Prop(String) classPrefix?: string  //增加一个类前缀
 
-  liClass(item:DataSourceItem){
+  liClass(item: DataSourceItem){
       return{
         [this.classPrefix+'-tabs-item']:this.classPrefix,selected:item.value === this.value
       }
   }
   
-  select(item:DataSourceItem){
+  select(item: DataSourceItem){
     this.$emit('update:value',item.value)
   }
 }

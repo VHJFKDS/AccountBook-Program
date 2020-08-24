@@ -2,7 +2,7 @@ import clone from '../lib/clone';
 
 const localStorageKeyName = 'recordList'
 
-//record store
+// record store
 const recordStore = {
     recordList: [] as RecordItem[],
     fetchRecords() {

@@ -19,7 +19,6 @@ import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
 import FormItem from '@/components/money/FormItem.vue';
 import Button from '../components/Button.vue';
-import store from '../store/index';
 
 @Component({
   components:{FormItem,Button},
@@ -37,7 +36,7 @@ export default class EditLabel extends Vue{
     this.$router.replace('/404')
   }
   }
-update(name:string){
+update(name: string){
   if(this.currentTag){
     this.$store.commit('updateTag',{id:this.currentTag.id,name})
   // store.updateTag(this.tag.id,name)
