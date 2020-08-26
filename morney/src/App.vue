@@ -2,6 +2,7 @@
   <div id="app">
     <router-view/>  <!--路径传送 -->
     <div class="code-wrapper" v-show="isCodeVisible">
+      <Icon name="close" class="close" @click="closeTip"/>
       <img class="code" src="./assets/qrcode.png" alt="qrcode">
       <p class="tip">建议使用手机打开本页面，以保证浏览效果</p>
     </div>
@@ -19,6 +20,9 @@ export default class App extends Vue{
   mounted(){   
     this.isCodeVisible = isPC() ? true :false
   }
+  closeTip(){
+    this.isCodeVisible = false
+  }
   
 }
 </script>
@@ -35,6 +39,11 @@ body{
   line-height: 1.5;
   font-family: $font-hei;
   }
+ #app{
+    max-width: 500px;
+    margin: 0 auto;
+  }
+ 
 
 </style>
 <style lang="scss" scoped>
@@ -54,6 +63,12 @@ body{
     width: 230px;
     height: 230px;
     margin: 35px 50px 20px 50px;
+  }
+  .close{
+    position: fixed;
+    right: 5%;
+    top: 5%;
+    cursor: pointer;
   }
 }
 </style>

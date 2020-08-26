@@ -36,7 +36,7 @@ export default class FormItem extends Vue{
    padding: 0 16px;
   }
  input{
-   height: 40px;
+   height: 30px;
    flex-grow: 1;
    background: transparent;
    border: none;
