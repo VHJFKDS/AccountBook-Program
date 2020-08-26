@@ -1,7 +1,7 @@
 <template>
     <Layout>
       <div class="tags">
-        <router-link  class="tag" v-for="tag in currentTag" :key="tag.id" :to="`/labels/edit/${tag.id}`"> 
+        <router-link  class="tag" v-for="tag in tags" :key="tag.id" :to="`/labels/edit/${tag.id}`"> 
           <span>{{tag.name}}</span>
           <Icon name="right"/>
         </router-link>
@@ -10,8 +10,10 @@
       <div class="createTag-wrapper">
         <Button class="createTag" @click="createTag">新建标签</Button>
       </div>
+      <Dialog title="新增标签" :visible="isCreateTagVisible" @confirm="confirmCreateTag" @cancel="cancelCreateTag">
+        <FormItem slot="content" :value.sync="tagName" placeholder="在这里输入名称" field-name="标签名"/>
+      </Dialog>
     </Layout>
-    
 </template>
 
 <script lang="ts">
@@ -19,14 +21,15 @@ import {Component} from 'vue-property-decorator';
 import Button from '../components/Button.vue';
 import { mixins } from 'vue-class-component';
 import TagHelper from '../lib/mixins/tagHelper';
+import FormItem from '../components/money/FormItem.vue';
+import Dialog from '../components/Dialog.vue';
 
 // const tagHelper:any = require('@/mixins/tagHelper');
 @Component({
-  components:{Button},
+  components:{Button,FormItem,Dialog},
 })
 export default class Labels extends mixins(TagHelper){
-
-  get currentTag(){
+  get tags(){
       return this.$store.state.tagList
   }
   beforeCreate(){

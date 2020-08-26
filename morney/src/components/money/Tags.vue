@@ -4,20 +4,25 @@
     <button @click="createTag">新增标签</button>
   </div>
   <ul class="current">
-    <li v-for="tag in tagList" :key="tag.id" :class="{selected:selectedTags.indexOf(tag)>=0}" @click="toggle(tag)">{{tag.name}}</li>  
+    <li v-for="tag in tagList" :key="tag.id" 
+    :class="{selected:value.map(item=>item.id).indexOf(tag.id)>=0}" 
+    @click="toggle(tag)">{{tag.name}}</li>  
   </ul>
   
   </div>
 </template>
 
 <script lang="ts">
-import { Component} from "vue-property-decorator"
+import { Component, Prop} from "vue-property-decorator"
 import { mixins } from "vue-class-component"
 import TagHelper from "../../lib/mixins/tagHelper"
+import clone from '@/lib/clone'
 
 @Component
 export default class Tags extends mixins(TagHelper){
-selectedTags: string[] = []
+  @Prop({default:[]}) readonly value!: Tag[]
+
+// selectedTags: string[] = []
 
   get tagList(){
       return this.$store.state.tagList
@@ -25,14 +30,15 @@ selectedTags: string[] = []
   created(){
     this.$store.commit('fetchTags')
   }
-  toggle(tag: string){
-    const index = this.selectedTags.indexOf(tag)
+  toggle(tag: Tag){
+    const tags = clone(this.value)
+    const index = tags.map(item=>item.id).indexOf(tag.id)
     if(index>=0){
-       this.selectedTags.splice(index,1)
+       tags.splice(index,1)
     }else{
-    this.selectedTags.push(tag)
+    tags.push(tag)
     }
-    this.$emit('update:value',this.selectedTags)
+    this.$emit('update:value',tags)
   }
  
 }

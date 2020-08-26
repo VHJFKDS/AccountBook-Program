@@ -2,9 +2,12 @@
 <Layout>
       <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
       <!-- <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/> -->
-        <ol>
+        <ol v-if="groupedList.length>0">
           <li v-for="(group,index) in groupedList" :key="index">
-            <h3 class="title">{{beautify(group.title)}}<span>￥{{group.total}}</span></h3>
+            <h3 class="title">
+              {{beautify(group.title)}}
+              <span>￥{{group.total}}</span>
+              </h3>
             <ol>
               <li v-for="item in group.items" :key="item.id" class="record">
                <span>{{tagString(item.tags)}}</span> 
@@ -14,7 +17,9 @@
             </ol>
           </li>
         </ol>
-        
+         <div v-else class="no-result">
+             目前没有相关记录
+        </div>
     </Layout>
 </template>
 
@@ -32,8 +37,10 @@ import clone from '@/lib/clone';
 })
 export default class Statistics extends Vue{
  tagString(tags: Tag[]){
-   return tags.length === 0 ? '无' :tags.join(',')
+   return tags.length === 0 ? '无' :tags.map(tag=>tag.name).join(',')
  }
+
+
  beautify(string: string){
    const now = dayjs()
    const day = dayjs(string)
@@ -55,11 +62,12 @@ export default class Statistics extends Vue{
  }
  get groupedList(){
    const {recordList} = this
-   if(recordList.length === 0){return []}
-  //  type HashTableValue = {title: string;items: RecordItem[]}
-   
    const newList = clone(recordList).filter(r=>r.type === this.type)
-   .sort((a,b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
+    .sort((a,b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
+
+
+   if(newList.length === 0){return [] as Result}
+   
    type Result = {title: string;total?: number;items: RecordItem[]}[]
    const result: Result = [{title:dayjs(newList[0].createdAt).format('YYYY-MM-DD'),items:[newList[0]]}]
    for(let i=1;i<newList.length;i++){
@@ -81,13 +89,15 @@ export default class Statistics extends Vue{
  }
 
  type ='-';
-//  interval='day';
-//  intervalList = intervalList;
  recordTypeList = recordTypeList;
 }
 </script>
 
 <style lang="scss" scoped>
+.no-result{
+  padding: 16px;
+  text-align: center;
+}
  ::v-deep {
  .type-tabs-item{
   background: #c4c4c4;
@@ -113,9 +123,8 @@ export default class Statistics extends Vue{
     @extend %item
   }
   .record{
+    @extend %item;
     background: white;
-    @extend %item
-
   }
   .notes{
     margin-right: auto;

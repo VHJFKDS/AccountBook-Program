@@ -1,9 +1,10 @@
 type RootState = {
   recordList:RecordItem[],
-  createRecordError:Error | null,
-    createTagError:Error | null,
+  // createRecordError:Error | null,
+    // createTagError:Error | null,
     tagList:Tag[],
-    currentTag?:Tag
+    currentTag?:Tag,
+    isCreateTagVisible: boolean;
 }
 
 
@@ -21,7 +22,7 @@ type Tag = {
   }
 
 type TagListModel = {
-      data:Tag[],
+      data:Tag[]
       fetch:() =>Tag[]
       create:(name:string)=> 'success' | 'duplicated'  //联合类型 success 表示成功，duplicated 表示类名重复
       update:(id:string,name:string) => 'success' | 'not found' |'duplicated'

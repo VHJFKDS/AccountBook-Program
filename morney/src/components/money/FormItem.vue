@@ -1,10 +1,8 @@
 <template>
-    <div>
 <label class="formItem">
   <span class="name">{{this.fieldName}}</span>
 <input type="text" :value="value" @input="onValueChanged($event.target.value)" :placeholder="placeholder">
 </label>
-</div>
 </template>
 
 <script lang="ts">
@@ -26,6 +24,8 @@ export default class FormItem extends Vue{
 
 
 <style lang="scss" scoped>
+@import "~@/assets/style/helper.scss";
+
 .formItem{
   font-size: 14px;
   display: block;

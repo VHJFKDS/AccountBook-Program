@@ -9,7 +9,8 @@
       <FormItem :value="currentTag.name" @update:value="update" field-name="标签名" placeholder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
-      <Button @click="remove">删除标签</Button>   
+      <Button class="save" @click="save">保存</Button>
+      <Button v-show="tagList.length !== 1" @click="remove">删除标签</Button>   
     </div>
   </Layout>
 </template>
@@ -19,6 +20,7 @@ import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
 import FormItem from '@/components/money/FormItem.vue';
 import Button from '../components/Button.vue';
+import checkName from '@/lib/checkName';
 
 @Component({
   components:{FormItem,Button},
@@ -28,24 +30,36 @@ export default class EditLabel extends Vue{
   get currentTag(){
       return this.$store.state.currentTag
   }
+  get tagList(){
+    return this.$store.state.tagList
+  }
   created(){
-   const id = this.$route.params.id;
     this.$store.commit('fetchTags')
-    this.$store.commit('setCurrentTag',id)
+    this.$store.commit('setCurrentTag',this.$route.params.id)
   if(!this.currentTag){   
     this.$router.replace('/404')
   }
   }
 update(name: string){
   if(this.currentTag){
-    this.$store.commit('updateTag',{id:this.currentTag.id,name})
+    this.$store.commit('updateTag',name)
   // store.updateTag(this.tag.id,name)
   }
 }
-  remove(){
-    if(this.currentTag){
-     this.$store.commit('removeTag',this.currentTag.id)
+ 
+save(){
+  if(!checkName(this.currentTag.name)){
+    return window.alert('标签名不能为空')
+  }else{
+    this.$store.commit('saveTag')
   }
+}
+  remove(){
+     this.$store.commit('removeTag')
+
+  //   if(this.currentTag){
+  //    this.$store.commit('removeTag',this.currentTag.id)
+  // }
   }
 goBack(){
   this.$router.back()
@@ -84,12 +98,11 @@ goBack(){
   padding: 16px;
   margin-top: 44-16px;
   Button{
-  background: #767676;
-  color: white;
-  border-radius: 4px;
-  border: none;
-  height: 40px;
-  padding: 0 16px;
-  }
+    margin: 0 16px;
+    
 }
+}
+::v-deep .save{
+      padding: 0 32px;
+    }
 </style>
