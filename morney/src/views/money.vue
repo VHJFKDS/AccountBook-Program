@@ -23,6 +23,7 @@
     >
       <div slot="content" class="info">至少要选择一个标签哦~</div>
     </Dialog>
+    
   </Layout>
 </template>
 
@@ -97,5 +98,6 @@ export default class Money extends mixins(TagHelper) {
 .info{
   text-align: center;
 }
+
 </style>
 

@@ -21,15 +21,15 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-window.onload = function(){
-  setTimeout(function(){
-    window.scrollTo(0,200)
-  },0)
-}
+// window.onload = function(){
+//   setTimeout(function(){
+//     window.scrollTo(0,200)
+//   },0)
+// }
 
 // if(document.documentElement.clientWidth > 500){
 //   window.alert('请使用手机打开本页面，以保证浏览效果')
-//   const img = document.createElement('img')
+//   // const img = document.createElement('img')
 //   img.src = '/qrcode.png'
 //   img.style.left = '50%'
 //   img.style.top = '50%'

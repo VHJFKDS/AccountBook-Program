@@ -1,10 +1,27 @@
 <template>
   <div id="app">
     <router-view/>  <!--路径传送 -->
-    
+    <div class="code-wrapper" v-show="isCodeVisible">
+      <img class="code" src="./assets/qrcode.png" alt="qrcode">
+      <p class="tip">建议使用手机打开本页面，以保证浏览效果</p>
+    </div>
     
   </div>
 </template>
+<script lang="ts">
+import Vue from 'vue'
+import isPC from '@/lib/isPC'
+import {Component} from 'vue-property-decorator'
+
+@Component
+export default class App extends Vue{
+  isCodeVisible = false
+  mounted(){   
+    this.isCodeVisible = isPC() ? true :false
+  }
+  
+}
+</script>
 
 <style lang="scss">
 @import "~@/assets/style/reset.scss";
@@ -19,6 +36,24 @@ body{
   font-family: $font-hei;
   }
 
-
-
+</style>
+<style lang="scss" scoped>
+.code-wrapper{
+  position: fixed;
+  background-color: rgba(255,255,255,0.8);
+  border-radius: 20px;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%,-50%,0);
+  .tip{
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .code{
+    width: 230px;
+    height: 230px;
+    margin: 35px 50px 20px 50px;
+  }
+}
 </style>
