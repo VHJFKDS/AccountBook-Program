@@ -4,7 +4,12 @@
     <NumberPad :value.sync="record.amount" @submit="saveRecord" />
     <Tabs :data-source="recordTypeList" :value.sync="record.type" />
     <div class="notes">
-      <FormItem field-name="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes" />
+      <FormItem field-name="备注" placeholder="在这里输入备注" 
+      @update:value="onUpdateNotes" />
+    </div>
+    <div class="createTime">
+      <FormItem field-name="日期" placeholder="在这里输入日期" 
+      @update:value="record.createAt" type="date"/>
     </div>
     <Tags :value.sync="record.tags" />
     <Dialog
@@ -59,7 +64,7 @@ export default class Money extends mixins(TagHelper) {
     notes: "",
     type: "-",
     amount: 0,
-    createdAt:''
+    createdAt:new Date().toISOString(),
   };
 
   created() {
