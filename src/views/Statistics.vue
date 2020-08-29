@@ -1,7 +1,7 @@
 <template>
 <Layout>
       <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-      <!-- <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/> -->
+      <Chart :options="y"/>
         <ol v-if="groupedList.length>0">
           <li v-for="(group,index) in groupedList" :key="index">
             <h3 class="title">
@@ -30,10 +30,17 @@ import Tabs from '../components/Tabs.vue';
 import recordTypeList from '../constants/recordTypeList';
 import dayjs from 'dayjs'
 import clone from '@/lib/clone';
+import Chart from '../components/money/Chart.vue';
 
+const ECharts = require('vue-echarts').default
+
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/polar'
+
+console.log(ECharts)
 
 @Component({
-  components:{Tabs}
+  components:{Tabs,Chart}
 })
 export default class Statistics extends Vue{
  tagString(tags: Tag[]){
@@ -56,6 +63,38 @@ export default class Statistics extends Vue{
     return day.format('YYYY年M月D日')
   }
  }
+ get y(){
+   return {
+      xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+        'Mon', 'Tue'
+        ]
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: [120, 200, 150, 80, 70, 110, 130,
+        120, 200, 150, 80, 70, 110, 130,
+        120, 200, 150, 80, 70, 110, 130,
+        120, 200, 150, 80, 70, 110, 130,
+        120, 200
+        ],
+        type: 'line',
+        showBackground: true,
+        backgroundStyle: {
+            color: 'rgba(220, 220, 220, 0.8)'
+        }
+    }],
+    tooltip:{show:true}
+    }
+  }
+
+ 
 
  get recordList(){
    return (this.$store.state as RootState).recordList
@@ -94,6 +133,10 @@ export default class Statistics extends Vue{
 </script>
 
 <style lang="scss" scoped>
+.echarts {
+  min-width: 100%;
+  height: 400px;
+}
 .no-result{
   padding: 16px;
   text-align: center;
