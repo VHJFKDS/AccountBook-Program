@@ -31,20 +31,7 @@ const store = new Vuex.Store({
     setCurrentTag(state, id: string) {
       state.currentTag = state.tagList.filter(t => t.id === id)[0];
     },
-    // updateTag(state, payload: { id: string, name: string }) {
-    //   const { id, name } = payload
-    //   const idList = state.tagList.map(item => item.id)
-    //   if (idList.indexOf(id) >= 0) {
-    //     const names = state.tagList.map(item => item.name)
-    //     if (names.indexOf(name) >= 0) {
-    //       window.alert('标签名重复')
-    //     } else {
-    //       const tag = state.tagList.filter(item => item.id === id)[0]
-    //       tag.name = name
-    //       store.commit('saveTags')
-    //     }
-    //   }
-    // },
+   
     updateTag(state,name){
       if(state.currentTag){
         state.currentTag.name = name
@@ -108,7 +95,8 @@ const store = new Vuex.Store({
     },
     createRecord(state, record:RecordItem) {
       const record2: RecordItem = clone(record)
-      record2.createdAt = new Date().toISOString()
+      record2.createdAt = record2.createdAt || new Date().toISOString()
+      console.log(record2.createdAt)
       state.recordList.push(record2) // this.recordList?.push(record2) 
       store.commit('saveRecords')
     },

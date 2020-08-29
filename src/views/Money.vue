@@ -3,14 +3,16 @@
   <Layout class-prefix="layout">
     <NumberPad :value.sync="record.amount" @submit="saveRecord" />
     <Tabs :data-source="recordTypeList" :value.sync="record.type" />
+
+    <div class="createdAt">
+      <FormItem field-name="日期" placeholder="在这里输入日期" 
+     :value.sync="record.createdAt" type="date" />
+    </div>
     <div class="notes">
       <FormItem field-name="备注" placeholder="在这里输入备注" 
       @update:value="onUpdateNotes" />
     </div>
-    <div class="createTime">
-      <FormItem field-name="日期" placeholder="在这里输入日期" 
-      @update:value="record.createAt" type="date"/>
-    </div>
+    
     <Tags :value.sync="record.tags" />
     <Dialog
       title="新增标签"
@@ -66,7 +68,7 @@ export default class Money extends mixins(TagHelper) {
     amount: 0,
     createdAt:new Date().toISOString(),
   };
-
+ 
   created() {
     this.$store.commit("fetchRecords");
   }

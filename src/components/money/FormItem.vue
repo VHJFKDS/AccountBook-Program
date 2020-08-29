@@ -36,7 +36,7 @@ export default class FormItem extends Vue {
     this.$emit("update:value", value);
   }
   x(isoString: string){
-    return dayjs(isoString).format('YYYY-MM-DDTHH:mm')
+    return dayjs(isoString).format('YYYY-MM-DD')
   }
 }
 </script>
