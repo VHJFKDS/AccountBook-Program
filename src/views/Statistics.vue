@@ -103,6 +103,7 @@ const today = new Date()
      grid:{
        left:0,
        right:0,
+       height:'50%',
      },
       xAxis: {
         type: 'category',
@@ -179,7 +180,7 @@ const today = new Date()
 <style lang="scss" scoped>
 .echarts {
   min-width: 100%;
-  height: 400px;
+  // height: 400px;
 }
 .no-result{
   padding: 16px;

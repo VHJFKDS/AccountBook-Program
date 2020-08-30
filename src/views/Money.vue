@@ -101,10 +101,15 @@ export default class Money extends mixins(TagHelper) {
   display: flex;
   flex-direction: column-reverse;
 }
-
 .info{
   text-align: center;
 }
+::v-deep{
+  .formItem{
+    padding: 5px;
+  }
+}
+
 
 </style>
 
