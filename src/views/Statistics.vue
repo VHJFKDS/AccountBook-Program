@@ -76,9 +76,9 @@ const today = new Date()
    const array = []
    for(let i=0;i<=29;i++){
      const date = day(today).subtract(i,'day').format('YYYY-MM-DD')
-     const found = _.find(this.recordList,{createdAt:date})
+     const found = _.find(this.groupedList,{title:date})
      array.push({
-       key:date,value:found?found.amount:0
+       key:date,value:found?found.total:0
      })
     //  array.push({
     //    date:date,value:_.find(this.recordList,{createdAt:date})?.amount
