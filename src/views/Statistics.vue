@@ -33,6 +33,8 @@ import recordTypeList from '../constants/recordTypeList';
 import dayjs from 'dayjs'
 import clone from '@/lib/clone';
 import Chart from '../components/money/Chart.vue';
+import _ from 'lodash'
+import day from 'dayjs'
 
 // import Chart from '../components/money/Chart.vue';
 
@@ -40,8 +42,6 @@ const ECharts = require('vue-echarts').default
 
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/polar'
-
-console.log(ECharts)
 
 @Component({
   components:{Tabs,Chart}
@@ -52,7 +52,8 @@ export default class Statistics extends Vue{
  }
 
 mounted(){
-  (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999;
+  const div = (this.$refs.chartWrapper as HTMLDivElement)
+  div.scrollLeft = div.scrollWidth;
 }
 
  beautify(string: string){
@@ -70,7 +71,35 @@ mounted(){
     return day.format('YYYY年M月D日')
   }
  }
+ get z(){
+const today = new Date()
+   const array = []
+   for(let i=0;i<=29;i++){
+     const date = day(today).subtract(i,'day').format('YYYY-MM-DD')
+     const found = _.find(this.recordList,{createdAt:date})
+     array.push({
+       date:date,value:found?found.amount:0
+     })
+    //  array.push({
+    //    date:date,value:_.find(this.recordList,{createdAt:date})?.amount
+    //  })
+   }
+   array.sort((a,b)=>{
+     if(a.date > b.date){
+       return 1
+     }else if(a.date === b.date){
+       return 0
+     }else{
+       return -1
+     }
+   })
+   return array
+ }
  get y(){
+   
+   console.log(this.z)
+   const keys = this.z.map(item=>item.date)
+   const values = this.z.map(item=>item.value)
    return {
      grid:{
        left:0,
@@ -78,12 +107,7 @@ mounted(){
      },
       xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-        'Mon', 'Tue'
-        ],
+        data: keys,
         axisTick:{alignWithLabel:true},
         axisLine:{lineStyle:{color:'#666'}}
     },
@@ -94,12 +118,7 @@ mounted(){
     series: [{
         symbolSize:12,
         itemStyle:{color:'#666'},
-        data: [120, 200, 150, 80, 70, 110, 130,
-        120, 200, 150, 80, 70, 110, 130,
-        120, 200, 150, 80, 70, 110, 130,
-        120, 200, 150, 80, 70, 110, 130,
-        120, 200
-        ],
+        data: values,
         type: 'line',
         showBackground: true,
         backgroundStyle: {

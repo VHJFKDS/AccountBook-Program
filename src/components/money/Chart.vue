@@ -16,7 +16,6 @@ mounted(){
         return console.error('options 为空');
         
     }
-    console.log(this.options)
     const chart = echarts.init(this.$refs.wrapper as HTMLDivElement)
     chart.setOption(this.options)
 }
