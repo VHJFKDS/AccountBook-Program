@@ -2,7 +2,7 @@
 <Layout>
       <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
       <div class="chart-wrapper" ref="chartWrapper">
-          <Chart class="chart" :options="y"/>
+          <Chart class="chart" :options="chartOptions"/>
       </div>
         <ol v-if="groupedList.length>0">
           <li v-for="(group,index) in groupedList" :key="index">
@@ -71,23 +71,23 @@ mounted(){
     return day.format('YYYY年M月D日')
   }
  }
- get z(){
+ get keyValueList(){
 const today = new Date()
    const array = []
    for(let i=0;i<=29;i++){
      const date = day(today).subtract(i,'day').format('YYYY-MM-DD')
      const found = _.find(this.recordList,{createdAt:date})
      array.push({
-       date:date,value:found?found.amount:0
+       key:date,value:found?found.amount:0
      })
     //  array.push({
     //    date:date,value:_.find(this.recordList,{createdAt:date})?.amount
     //  })
    }
    array.sort((a,b)=>{
-     if(a.date > b.date){
+     if(a.key > b.key){
        return 1
-     }else if(a.date === b.date){
+     }else if(a.key === b.key){
        return 0
      }else{
        return -1
@@ -95,11 +95,10 @@ const today = new Date()
    })
    return array
  }
- get y(){
+ get chartOptions(){
    
-   console.log(this.z)
-   const keys = this.z.map(item=>item.date)
-   const values = this.z.map(item=>item.value)
+   const keys = this.keyValueList.map(item=>item.key)
+   const values = this.keyValueList.map(item=>item.value)
    return {
      grid:{
        left:0,
@@ -109,7 +108,12 @@ const today = new Date()
         type: 'category',
         data: keys,
         axisTick:{alignWithLabel:true},
-        axisLine:{lineStyle:{color:'#666'}}
+        axisLine:{lineStyle:{color:'#666'}},
+        axisLabel:{
+          formatter:function(value: string){
+            return value.substr(5)
+          }
+        }
     },
     yAxis: {
         type: 'value',
